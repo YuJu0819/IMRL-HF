@@ -1,0 +1,226 @@
+<mujoco model="arm3d">
+	<compiler angle="radian" coordinate="local" inertiafromgeom="true" />
+	<option gravity="0 0 0" integrator="Euler" iterations="20" timestep="0.01" />
+	<default>
+		<joint armature="0.04" damping="1" limited="true" />
+		<geom conaffinity="0" condim="1" contype="0" density="300" friction=".8 .1 .1" margin="0.002" />
+	</default>
+	<asset>
+		<texture type="skybox" builtin="gradient" rgb1="0.059 0.620 0.961" rgb2="0.212 0.251 0.643" width="32" height="512" random="0.001" />
+		<material name="glass" reflectance="1" rgba="1 1 1 0.3" shininess="0.7" />
+		<material name="light-sword-yellow" rgba=".8 .2 0 1" emission="2" />
+		<material name="light-sword-blue" rgba="0 .2 0.8 1" emission="2" />
+	</asset>
+	<worldbody>
+		<light diffuse=".5 .5 .5" dir="0 0 -1" pos="0 0 3" castshadow="false" />
+		<geom conaffinity="1" contype="1" name="table" pos="0 0 -0.5" size="0.7 2.5 0.1" type="plane" material="glass" />
+		<geom conaffinity="1" contype="1" name="0_indicator" pos="-0.7 0 -0.49" size="0.03 2.5 0.03" type="box" />
+		<geom conaffinity="1" contype="1" name="1_indicator" pos="0.7 0 -0.49" size="0.03 2.5 0.03" type="box" />
+		<body name="0_x_slide_link" pos="0 -1 0">
+			<geom fromto="-0.1 0 -0.4 0.1 0 -0.4" name="0_x_slide" rgba="0.6 0.6 0.6 0" size="0.1" type="capsule">
+			</geom>
+			<joint axis="1 0 0" name="0_x_slide_joint" pos="0 0 -0.4" range="-0.6 0.6" type="slide">
+			</joint>
+			<!-- <body name="0_y_slide_link" pos="0 -0.5 0"> -->
+			<body name="0_y_slide_link" pos="0 0 0">
+				<geom fromto="0 -0.1 -0.4 0 0.1 -0.4" name="0_y_slide" rgba="0.6 0.6 0.6 1" size="0.1" type="capsule" />
+				<joint axis="0 1 0" name="0_y_slide_joint" pos="0 0 -0.4" range="-1.0 1.0" type="slide" />
+				<body name="0_r_shoulder_pan_link" pos="0 0 0">
+					<geom name="0_l_eye" pos="-0.06 0.05 0.2" rgba="0.6 0.6 0.6 1" size="0.05" type="sphere" />
+					<geom name="0_r_eye" pos=" 0.06 0.05 0.2" rgba="0.6 0.6 0.6 1" size="0.05" type="sphere" />
+					<geom name="0_l_eye_pin" pos="-0.06 0.09 0.2" rgba="0.1 0.1 0.1 1" size="0.03" type="sphere" />
+					<geom name="0_r_eye_pin" pos=" 0.06 0.09 0.2" rgba="0.1 0.1 0.1 1" size="0.03" type="sphere" />
+					<geom name="0_target0" pos="0 0.1 -0.3" rgba="1 0 0 1" size="0.02" type="sphere" />
+					<geom name="0_target1" pos="0.15 0 0.1" rgba="1 0 0 1" size="0.02" type="sphere" />
+					<geom name="0_target2" pos="-0.15 0 0.1" rgba="1 0 0 1" size="0.02" type="sphere" />
+					<geom name="0_hat" pos="0 0 0.265" rgba="0 0 1 1" size="0.05" type="sphere" />
+					<geom fromto="0 0 -0.4 0 0 0.2" name="0_shoulder_pan" size="0.1" type="capsule" />
+					<joint axis="0 0 1" damping="1.0" name="0_r_shoulder_pan_joint" pos="0 0 0" range="-2.2854 1.714602" type="hinge" />
+					<body axisangle="1 0 0 -1.0" name="0_r_shoulder_lift_link" pos="0 0 0">
+						<geom fromto="-0.15 0 0 0.15 0 0" name="0_shoulder_lift" size="0.1" type="capsule" />
+						<joint axis="1 0 0" damping="1.0" name="0_r_shoulder_lift_joint" pos="0.3 0 0" range="-0.2 2.2" type="hinge" />
+						<body axisangle="0 0 1 1.57079" name="0_r_shoulder_turn_link" pos="0.3 0 0">
+							<geom name="0_shoulder_turn" pos="0 0 0" size="0.1" type="sphere" />
+							<joint axis="0 0 1" damping="1.0" name="0_r_shoulder_turn_joint" pos="0 0 0" range="-1.57079 0.4" type="hinge" />
+							<body name="0_r_upper_arm_roll_link" pos="0 0 0">
+								<geom fromto="-0.1 0 0 0.1 0 0" name="0_upper_arm_roll" size="0.02" type="capsule" />
+								<joint axis="1 0 0" damping="0.1" name="0_r_upper_arm_roll_joint" pos="0 0 0" range="-1.5 1.7" type="hinge" />
+								<body name="0_r_upper_arm_link" pos="0 0 0">
+									<geom fromto="0 0 0 0.4 0 0" name="0_upper_arm" size="0.06" type="capsule" />
+									<body axisangle="0 1 0 -1.65" name="0_r_elbow_flex_link" pos="0.4 0 0">
+										<geom fromto="0 -0.02 0 0.0 0.02 0" name="0_elbow_flex" size="0.06" type="capsule" />
+										<joint axis="0 1 0" damping="0.1" name="0_r_elbow_flex_joint" pos="0 0 0" range="-0.6713 1.65" type="hinge" />
+										<body name="0_r_forearm_roll_link" pos="0 0 0">
+											<geom fromto="-0.1 0 0 0.1 0 0" name="0_forearm_roll" size="0.02" type="capsule" />
+											<joint axis="1 0 0" damping=".1" limited="true" name="0_r_forearm_roll_joint" pos="0 0 0" range="-1.5 1.5" type="hinge" />
+											<body name="0_r_forearm_link" pos="0 0 0">
+												<geom fromto="0 0 0 0.291 0 0" name="0_forearm" size="0.05" type="capsule" />
+												<body name="0_r_wrist_flex_link" pos="0.321 0 0">
+													<geom fromto="0 -0.02 0 0 0.02 0" name="0_wrist_flex" size="0.01" type="capsule" />
+													<joint axis="0 1 0" damping=".1" name="0_r_wrist_flex_joint" pos="0 0 0" range="-1.094 0" type="hinge" />
+													<body name="0_r_wrist_roll_link" pos="0 0 0">
+														<joint axis="1 0 0" damping="0.1" limited="true" name="0_r_wrist_roll_joint" pos="0 0 0" range="-1.5 1.5" type="hinge" />
+														<geom conaffinity="1" name="0_sword_blade" pos="0.6 0.02 0.02" size="0.5 0.005 0.01" type="box" material="light-sword-blue" />
+														<geom name="0_sword_tip" type="sphere" rgba="0.6 0.6 0.6 1" pos=" 1.1 0.02 0.02" size="0.008" conaffinity="1" />
+														<geom conaffinity="1" name="0_sword_handle" pos="0.1 0.02 0.02" size="0.1 0.02 0.02" type="box" />
+													</body>
+												</body>
+											</body>
+										</body>
+									</body>
+								</body>
+							</body>
+						</body>
+					</body>
+				</body>
+			</body>
+		</body>
+		<body name="1_x_slide_link" pos="0 1 0" axisangle="0 0 1 -3.1415926">
+			<geom fromto="-0.1 0 -0.4 0.1 0 -0.4" name="1_x_slide" rgba="0.6 0.6 0.6 0" size="0.1" type="capsule">
+			</geom>
+			<joint axis="1 0 0" name="1_x_slide_joint" pos="0 0 -0.4" range="-0.6 0.6" type="slide">
+			</joint>
+			<!-- <body axisangle="0 0 1 -3.1415926" name="1_y_slide_link" pos="0 1.5 0"> -->
+			<body name="1_y_slide_link" pos="0 0 0">
+				<geom fromto="0 -0.1 -0.4 0 0.1 -0.4" name="1_y_slide" rgba="0.6 0.6 0.6 1" size="0.1" type="capsule" />
+				<joint axis="0 1 0" name="1_y_slide_joint" pos="0 0 -0.4" range="-1.0 1.0" type="slide" />
+				<body name="1_r_shoulder_pan_link" pos="0 0 0">
+					<geom name="1_l_eye" pos="-0.06 0.05 0.2" rgba="0.6 0.6 0.6 1" size="0.05" type="sphere" />
+					<geom name="1_r_eye" pos=" 0.06 0.05 0.2" rgba="0.6 0.6 0.6 1" size="0.05" type="sphere" />
+					<geom name="1_l_eye_pin" pos="-0.06 0.09 0.2" rgba="0.1 0.1 0.1 1" size="0.03" type="sphere" />
+					<geom name="1_r_eye_pin" pos=" 0.06 0.09 0.2" rgba="0.1 0.1 0.1 1" size="0.03" type="sphere" />
+					<geom name="1_target0" pos="0 0.1 -0.3" rgba="1 0 0 1" size="0.02" type="sphere" />
+					<geom name="1_target1" pos="0.15 0 0.1" rgba="1 0 0 1" size="0.02" type="sphere" />
+					<geom name="1_target2" pos="-0.15 0 0.1" rgba="1 0 0 1" size="0.02" type="sphere" />
+					<geom name="1_hat" pos="0 0 0.265" rgba="1 1 0 1" size="0.05" type="sphere" />
+					<geom fromto="0 0 -0.4 0 0 0.2" name="1_shoulder_pan" size="0.1" type="capsule" />
+					<joint axis="0 0 1" damping="1.0" name="1_r_shoulder_pan_joint" pos="0 0 0" range="-2.2854 1.714602" type="hinge" />
+					<body axisangle="1 0 0 -1.0" name="1_r_shoulder_lift_link" pos="0 0 0">
+						<geom fromto="-0.15 0 0 0.15 0 0" name="1_shoulder_lift" size="0.1" type="capsule" />
+						<joint axis="1 0 0" damping="1.0" name="1_r_shoulder_lift_joint" pos="0.3 0 0" range="-0.2 2.2" type="hinge" />
+						<body axisangle="0 0 1 1.57079" name="1_r_shoulder_turn_link" pos="0.3 0 0">
+							<geom name="1_shoulder_turn" pos="0 0 0" size="0.1" type="sphere" />
+							<joint axis="0 0 1" damping="1.0" name="1_r_shoulder_turn_joint" pos="0 0 0" range="-1.57079 0.4" type="hinge" />
+							<body name="1_r_upper_arm_roll_link" pos="0 0 0">
+								<geom fromto="-0.1 0 0 0.1 0 0" name="1_upper_arm_roll" size="0.02" type="capsule" />
+								<joint axis="1 0 0" damping="0.1" name="1_r_upper_arm_roll_joint" pos="0 0 0" range="-1.5 1.7" type="hinge" />
+								<body name="1_r_upper_arm_link" pos="0 0 0">
+									<geom fromto="0 0 0 0.4 0 0" name="1_upper_arm" size="0.06" type="capsule" />
+									<body axisangle="0 1 0 -1.65" name="1_r_elbow_flex_link" pos="0.4 0 0">
+										<geom fromto="0 -0.02 0 0.0 0.02 0" name="1_elbow_flex" size="0.06" type="capsule" />
+										<joint axis="0 1 0" damping="0.1" name="1_r_elbow_flex_joint" pos="0 0 0" range="-0.6713 1.65" type="hinge" />
+										<body name="1_r_forearm_roll_link" pos="0 0 0">
+											<geom fromto="-0.1 0 0 0.1 0 0" name="1_forearm_roll" size="0.02" type="capsule" />
+											<joint axis="1 0 0" damping=".1" limited="true" name="1_r_forearm_roll_joint" pos="0 0 0" range="-1.5 1.5" type="hinge" />
+											<body name="1_r_forearm_link" pos="0 0 0">
+												<geom fromto="0 0 0 0.291 0 0" name="1_forearm" size="0.05" type="capsule" />
+												<body name="1_r_wrist_flex_link" pos="0.321 0 0">
+													<geom fromto="0 -0.02 0 0 0.02 0" name="1_wrist_flex" size="0.01" type="capsule" />
+													<joint axis="0 1 0" damping=".1" name="1_r_wrist_flex_joint" pos="0 0 0" range="-1.094 0" type="hinge" />
+													<body name="1_r_wrist_roll_link" pos="0 0 0">
+														<joint axis="1 0 0" damping="0.1" limited="true" name="1_r_wrist_roll_joint" pos="0 0 0" range="-1.5 1.5" type="hinge" />
+														<geom conaffinity="1" name="1_sword_blade" pos="0.6 0.02 0.02" size="0.5 0.005 0.01" type="box" material="light-sword-yellow" />
+														<geom name="1_sword_tip" type="sphere" rgba="0.6 0.6 0.6 1" pos=" 1.1 0.02 0.02" size="0.008" conaffinity="1" />
+														<geom conaffinity="1" name="1_sword_handle" pos="0.1 0.02 0.02" size="0.1 0.02 0.02" type="box" />
+													</body>
+												</body>
+											</body>
+										</body>
+									</body>
+								</body>
+							</body>
+						</body>
+					</body>
+				</body>
+			</body>
+		</body>
+	</worldbody>
+	<actuator>
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_x_slide_joint">
+		</motor>
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_y_slide_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_shoulder_pan_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_shoulder_lift_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_shoulder_turn_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_upper_arm_roll_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_elbow_flex_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_forearm_roll_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_wrist_flex_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="0_r_wrist_roll_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_x_slide_joint">
+		</motor>
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_y_slide_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_shoulder_pan_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_shoulder_lift_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_shoulder_turn_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_upper_arm_roll_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_elbow_flex_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_forearm_roll_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_wrist_flex_joint" />
+		<motor ctrllimited="true" ctrlrange="-2.0 2.0" joint="1_r_wrist_roll_joint" />
+	</actuator>
+	<contact>
+		<pair geom1="0_sword_tip" geom2="1_shoulder_pan" name="tip0_sp_attact" />
+		<pair geom1="0_sword_tip" geom2="1_shoulder_lift" name="tip0_sl_attact" />
+		<pair geom1="1_sword_tip" geom2="0_shoulder_pan" name="tip1_sp_attact" />
+		<pair geom1="1_sword_tip" geom2="0_shoulder_lift" name="tip1_sl_attact" />
+		<pair geom1="0_sword_blade" geom2="1_sword_blade" name="blade0_contact" />
+		<pair geom1="0_sword_blade" geom2="1_y_slide" name="blade0_slide_contact" />
+		<pair geom1="0_sword_blade" geom2="1_shoulder_pan" name="blade0_sp_contact" />
+		<pair geom1="0_sword_blade" geom2="1_shoulder_lift" name="blade0_sl_contact" />
+		<pair geom1="0_sword_blade" geom2="1_upper_arm_roll" name="blade0_uar_contact" />
+		<pair geom1="0_sword_blade" geom2="1_upper_arm" name="blade0_ua_contact" />
+		<pair geom1="0_sword_blade" geom2="1_elbow_flex" name="blade0_ef_contact" />
+		<pair geom1="0_sword_blade" geom2="1_forearm_roll" name="blade0_fr_contact" />
+		<pair geom1="0_sword_blade" geom2="1_forearm" name="blade0_forearm_contact" />
+		<pair geom1="0_sword_blade" geom2="1_wrist_flex" name="blade0_wf_contact" />
+		<pair geom1="0_sword_blade" geom2="1_sword_handle" name="blade0_handle_contact" />
+		<pair geom1="1_sword_blade" geom2="0_sword_blade" name="blade1_contact" />
+		<pair geom1="1_sword_blade" geom2="0_y_slide" name="blade1_slide_contact" />
+		<pair geom1="1_sword_blade" geom2="0_shoulder_pan" name="blade1_sp_contact" />
+		<pair geom1="1_sword_blade" geom2="0_shoulder_lift" name="blade1_sl_contact" />
+		<pair geom1="1_sword_blade" geom2="0_upper_arm_roll" name="blade1_uar_contact" />
+		<pair geom1="1_sword_blade" geom2="0_upper_arm" name="blade1_ua_contact" />
+		<pair geom1="1_sword_blade" geom2="0_elbow_flex" name="blade1_ef_contact" />
+		<pair geom1="1_sword_blade" geom2="0_forearm_roll" name="blade1_fr_contact" />
+		<pair geom1="1_sword_blade" geom2="0_forearm" name="blade1_forearm_contact" />
+		<pair geom1="1_sword_blade" geom2="0_wrist_flex" name="blade1_wf_contact" />
+		<pair geom1="1_sword_blade" geom2="0_sword_handle" name="blade1_handle_contact" />
+		<pair geom1="0_forearm" geom2="1_y_slide" name="arm0_slide_contact" />
+		<pair geom1="0_forearm" geom2="1_shoulder_pan" name="arm0_sp_contact" />
+		<pair geom1="0_forearm" geom2="1_shoulder_lift" name="arm0_sl_contact" />
+		<pair geom1="0_forearm" geom2="1_upper_arm_roll" name="arm0_uar_contact" />
+		<pair geom1="0_forearm" geom2="1_upper_arm" name="arm0_ua_contact" />
+		<pair geom1="0_forearm" geom2="1_elbow_flex" name="arm0_ef_contact" />
+		<pair geom1="0_forearm" geom2="1_forearm_roll" name="arm0_fr_contact" />
+		<pair geom1="0_forearm" geom2="1_forearm" name="arm0_forearm_contact" />
+		<pair geom1="0_forearm" geom2="1_wrist_flex" name="arm0_wf_contact" />
+		<pair geom1="0_forearm" geom2="1_sword_handle" name="arm0_handle_contact" />
+		<pair geom1="1_forearm" geom2="0_y_slide" name="arm1_slide_contact" />
+		<pair geom1="1_forearm" geom2="0_shoulder_pan" name="arm1_sp_contact" />
+		<pair geom1="1_forearm" geom2="0_shoulder_lift" name="arm1_sl_contact" />
+		<pair geom1="1_forearm" geom2="0_upper_arm_roll" name="arm1_uar_contact" />
+		<pair geom1="1_forearm" geom2="0_upper_arm" name="arm1_ua_contact" />
+		<pair geom1="1_forearm" geom2="0_elbow_flex" name="arm1_ef_contact" />
+		<pair geom1="1_forearm" geom2="0_forearm_roll" name="arm1_fr_contact" />
+		<pair geom1="1_forearm" geom2="0_forearm" name="arm1_forearm_contact" />
+		<pair geom1="1_forearm" geom2="0_wrist_flex" name="arm1_wf_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_y_slide" name="shoulder0_slide_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_shoulder_pan" name="shoulder0_sp_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_shoulder_lift" name="shoulder0_sl_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_upper_arm_roll" name="shoulder0_uar_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_upper_arm" name="shoulder0_ua_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_elbow_flex" name="shoulder0_ef_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_forearm_roll" name="shoulder0_fr_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_wrist_flex" name="shoulder0_wf_contact" />
+		<pair geom1="0_shoulder_lift" geom2="1_sword_handle" name="shoulder0_handle_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_y_slide" name="shoulder1_slide_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_shoulder_pan" name="shoulder1_sp_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_upper_arm_roll" name="shoulder1_uar_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_upper_arm" name="shoulder1_ua_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_elbow_flex" name="shoulder1_ef_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_forearm_roll" name="shoulder1_fr_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_wrist_flex" name="shoulder1_wf_contact" />
+		<pair geom1="1_shoulder_lift" geom2="0_sword_handle" name="shoulder1_handle_contact" />
+	</contact>
+</mujoco>
